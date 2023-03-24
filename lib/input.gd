@@ -1,6 +1,6 @@
 extends LineEdit
 
-@onready var entry = preload("res://entry.tscn")
+@onready var entry = preload("res://lib/entry.tscn")
 
 func _on_text_submitted(new_text):
 	var item = entry.instantiate()

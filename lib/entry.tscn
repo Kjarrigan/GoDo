@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://m3fg6rtrg5s3"]
+[gd_scene load_steps=2 format=3 uid="uid://cqkc04h38t0ti"]
 
-[ext_resource type="Script" path="res://entry.gd" id="1_7tx4x"]
+[ext_resource type="Script" path="res://lib/entry.gd" id="1_bvamg"]
 
 [node name="Entry" type="PanelContainer"]
 anchors_preset = 15
@@ -10,7 +10,7 @@ offset_bottom = -1030.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-script = ExtResource("1_7tx4x")
+script = ExtResource("1_bvamg")
 metadata/subgroup = NodePath("")
 
 [node name="Item" type="HBoxContainer" parent="."]
