@@ -5,7 +5,7 @@ var root_list
 var active_item : Entry
 const INDENT = 20
 
-@onready var input = preload("res://input.tscn")
+@onready var input = preload("res://lib/input.tscn")
 
 func _ready():
 	item_selected.connect(func(item): active_item = item)
