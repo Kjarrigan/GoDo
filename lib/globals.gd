@@ -31,10 +31,9 @@ func _unhandled_input(event):
 			new_input(active_item.get_parent())
 		else:
 			new_input(root_list)
-
+			
 func _input(event):
 	if event.is_action_pressed("deselect"):
-		print_debug("RMB")
 		item_selected.emit(null)
 		return
 
