@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://m3fg6rtrg5s3"]
+
+[ext_resource type="Script" path="res://entry.gd" id="1_7tx4x"]
+
+[node name="Entry" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -1030.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_7tx4x")
+
+[node name="Item" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginLeft" type="MarginContainer" parent="Item"]
+layout_mode = 2
+
+[node name="Finish" type="Button" parent="Item"]
+layout_mode = 2
+text = "X"
+flat = true
+
+[node name="Label" type="Label" parent="Item"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Hello World how are you?"
+clip_text = true
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="Item/Finish" to="." method="_on_finish_pressed"]
