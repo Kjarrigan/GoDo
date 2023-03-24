@@ -43,3 +43,12 @@ func _set_bg_alpha(value : float):
 	
 func _on_finish_pressed():
 	queue_free()
+
+func save() -> Dictionary:
+	var save_data = {
+		"name": text,
+	}
+	var subgroup = get_meta("subgroup")
+	if subgroup:
+		save_data["tasks"] = Globals._save_nested_tasks(subgroup)
+	return save_data
