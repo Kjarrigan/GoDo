@@ -3,6 +3,7 @@ extends Node
 signal item_selected(item)
 var root_list
 var active_item : Entry
+const INDENT = 20
 
 @onready var input = preload("res://input.tscn")
 
@@ -10,10 +11,19 @@ func _ready():
 	item_selected.connect(func(item): active_item = item)
 
 func _unhandled_input(event):		
-	# TODO, formatting of subgroups is currently broken
 	if event.is_action_pressed("add_below"):
 		if active_item:
-			new_input(active_item)
+			if active_item.get_meta("subgroup"):
+				new_input(active_item.get_meta("subgroup"))
+			else:
+				var group = MarginContainer.new()
+				group.add_theme_constant_override("margin_left", INDENT)
+				var sub_list = VBoxContainer.new()
+				group.add_child(sub_list)
+				
+				active_item.set_meta("subgroup", sub_list)
+				active_item.add_sibling(group)
+				new_input(sub_list)
 		else:
 			new_input(root_list)
 		return

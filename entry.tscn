@@ -11,13 +11,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_7tx4x")
+metadata/subgroup = NodePath("")
 
 [node name="Item" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="MarginLeft" type="MarginContainer" parent="Item"]
-layout_mode = 2
 
 [node name="Finish" type="Button" parent="Item"]
 layout_mode = 2

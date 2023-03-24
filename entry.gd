@@ -3,21 +3,15 @@ class_name Entry
 
 const INDENT_WIDTH = 25
 @export var text = ""
-@export var layer = 0
 var selected = false
 
-@onready var margin_left = $Item/MarginLeft
 @onready var label = $Item/Label
 @onready var bg = get_theme_stylebox("panel").duplicate()
 
 func _ready():
-	indent()
 	label.text = text
 	Globals.item_selected.connect(unselect)
 	
-func indent():
-	margin_left.add_theme_constant_override("margin_left", INDENT_WIDTH * layer)
-
 func _on_mouse_entered():
 	if selected:
 		return
