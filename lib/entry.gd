@@ -43,6 +43,8 @@ func _set_bg_alpha(value : float):
 	add_theme_stylebox_override("panel", bg)
 	
 func _on_finish_pressed():
+	if get_meta("subgroup"):
+		get_meta("subgroup").get_parent().queue_free()
 	queue_free()
 	Globals.item_changed.emit()
 	
