@@ -11,6 +11,7 @@ var selected = false
 func _ready():
 	label.text = text
 	Globals.item_selected.connect(unselect)
+	tree_exited.connect(func(): Globals.item_changed.emit())
 	
 func _on_mouse_entered():
 	if selected:
@@ -43,7 +44,8 @@ func _set_bg_alpha(value : float):
 	
 func _on_finish_pressed():
 	queue_free()
-
+	Globals.item_changed.emit()
+	
 func save() -> Dictionary:
 	var save_data = {
 		"name": text,
