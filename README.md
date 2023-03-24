@@ -1,6 +1,7 @@
 # GoDo
 
 A simple **Go**dot To**Do** app inspired by quire.io, which is unfortunately not available as self-hosted service. 
+You can nest as deeply as you want, there is no hardcoded limit.
 
 ## Controls
 
@@ -12,4 +13,6 @@ A simple **Go**dot To**Do** app inspired by quire.io, which is unfortunately not
 
 ## Storage
 
-Right now no persistent storage is implemented.
+Data is loaded and saved automatically in user://godo.json, ẁith `user://` being depend of the OS. For linux it's
+`~/.local/share/godot/app_userdata/GoDo/godo.json`
+
