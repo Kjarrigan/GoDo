@@ -74,13 +74,11 @@ func add_nested_list(ref) -> VBoxContainer:
 	return sub_list
 
 func save_tasks():
-	var file = FileAccess.open(SAVE_FILE, FileAccess.WRITE)
-	
 	var save_data = { 
 		"exported_at": Time.get_datetime_string_from_system(),
 		"tasks": _save_nested_tasks(root_list),
 	}
-	
+	var file = FileAccess.open(SAVE_FILE, FileAccess.WRITE)	
 	file.store_line(JSON.stringify(save_data))
 
 func _save_nested_tasks(list) -> Array:
