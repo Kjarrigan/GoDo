@@ -55,3 +55,34 @@ func save() -> Dictionary:
 	if subgroup:
 		save_data["tasks"] = Globals._save_nested_tasks(subgroup)
 	return save_data
+
+func _get_drag_data(at_position):
+	print_debug(get_meta("subgroup"))
+	return { "node": self, "id": str(get_path()) }
+	
+func _can_drop_data(at_position, data):
+	# TODO, prevent moving a parent to it's child nodes
+	# this doesn't worked:
+	#if str(get_path()).begins_with(data["id"]):
+	#	print_debug("Invalid Target")
+	#	return false
+		
+	# TODO, show preview if adding as child or reorder	
+	return true
+	
+func _drop_data(at_position, data):
+	var old_parent = data["node"].get_parent()
+		
+	# Remove subgroup if this was the last child
+	old_parent.remove_child(data["node"])
+	if len(old_parent.get_children()) == 0:
+		old_parent.get_parent().queue_free()
+	
+	add_sibling(data["node"])
+	
+	# if the moved entry was a group itself, reparent them too
+	var sub_list = data["node"].get_meta("subgroup")
+	if sub_list:
+		var container = sub_list.get_parent()
+		container.get_parent().remove_child(container)
+		add_sibling(container)
