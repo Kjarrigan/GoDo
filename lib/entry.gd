@@ -56,11 +56,11 @@ func save() -> Dictionary:
 		save_data["tasks"] = Globals._save_nested_tasks(subgroup)
 	return save_data
 
-func _get_drag_data(at_position):
+func _get_drag_data(_at_position):
 	print_debug(get_meta("subgroup"))
 	return { "node": self, "id": _task_id() }
 	
-func _can_drop_data(at_position, data):
+func _can_drop_data(_at_position, data):
 	if _task_id().begins_with(data["id"]):
 		return false
 		
@@ -75,14 +75,23 @@ func _drop_data(at_position, data):
 	if len(old_parent.get_children()) == 0:
 		old_parent.get_parent().queue_free()
 	
-	add_sibling(data["node"])
+	
+	# at_position is relative to the target node. If you drag to the left of the
+	# the node it's added on the same level, else as child
+	if at_position.x < 50:
+		add_sibling(data["node"])
+	else:
+		# if the element has no subgroup, create it. Append it then
+		if not get_meta("subgroup"):
+			Globals.add_nested_list(self)
+		get_meta("subgroup").add_child(data["node"])
 	
 	# if the moved entry was a group itself, reparent them too
 	var sub_list = data["node"].get_meta("subgroup")
 	if sub_list:
 		var container = sub_list.get_parent()
 		container.get_parent().remove_child(container)
-		add_sibling(container)
+		data["node"].add_sibling(container)
 
 func _task_id() -> String:
 	return str(get_path()).replace("-children", "")
