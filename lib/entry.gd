@@ -8,10 +8,12 @@ var selected = false
 
 func _ready():
 	$Edit.hide()
+	%Toggle.text = ""
 	%Label.text = text
 	Globals.item_selected.connect(unselect)
+	Globals.item_changed.connect(_cleanup)
 	tree_exited.connect(func(): Globals.item_changed.emit())
-	
+
 func _on_mouse_entered():
 	if selected:
 		return
@@ -45,11 +47,13 @@ func _on_finish_pressed():
 	if get_meta("subgroup"):
 		get_meta("subgroup").get_parent().queue_free()
 	queue_free()
+	
 	Globals.item_changed.emit()
 	
 func save() -> Dictionary:
 	var save_data = {
 		"name": text,
+		"collapsed": %Toggle.text == "+"
 	}
 	var subgroup = get_meta("subgroup")
 	if subgroup:
@@ -109,3 +113,38 @@ func _on_edit_text_submitted(new_text):
 	text = new_text
 	%Label.text = new_text
 	%Edit.hide()
+
+func add_subtask_container() -> VBoxContainer:
+	if get_meta("subgroup"):
+		return get_meta("subgroup")
+
+	var group = MarginContainer.new()
+	group.add_theme_constant_override("margin_left", Globals.INDENT)
+	group.name = name + "-children"
+	var sub_list = VBoxContainer.new()
+	group.add_child(sub_list)
+	set_meta("subgroup", sub_list)
+	add_sibling(group)
+	%Toggle.text = "-"
+	
+	return sub_list
+
+func toggle_children_visibility():
+	if %Toggle.text == "-":
+		%Toggle.text = "+"
+		get_meta("subgroup").get_parent().hide()
+	else: 
+		%Toggle.text = "-"
+		get_meta("subgroup").get_parent().show()
+
+func _cleanup():
+	# last child was deleted, so remove the whole group
+	# Currently can't deep "cleanup" since due to nesting the list
+	# contains some nodes that are already marked for deletion:
+	# https://github.com/godotengine/godot/issues/62790	
+	return
+	
+	if get_meta("subgroup"):		
+		if len(get_meta("subgroup").get_children()) == 0:
+			get_meta("subgroup").get_parent().queue_free()
+			%Toggle.text = ""

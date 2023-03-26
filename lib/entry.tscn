@@ -17,9 +17,11 @@ metadata/subgroup = NodePath("")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Finish" type="Button" parent="Item"]
+[node name="Toggle" type="Button" parent="Item"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 0)
 layout_mode = 2
-text = "X"
+text = "-"
 flat = true
 
 [node name="Label" type="Label" parent="Item"]
@@ -30,6 +32,12 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Hello World how are you?"
 clip_text = true
 
+[node name="Finish" type="Button" parent="Item"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+text = "X"
+flat = true
+
 [node name="Edit" type="LineEdit" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
@@ -39,5 +47,6 @@ select_all_on_focus = true
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="Item/Toggle" to="." method="toggle_children_visibility"]
 [connection signal="pressed" from="Item/Finish" to="." method="_on_finish_pressed"]
 [connection signal="text_submitted" from="Edit" to="." method="_on_edit_text_submitted"]

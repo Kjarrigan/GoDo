@@ -19,11 +19,8 @@ func _ready():
 func _unhandled_input(event):		
 	if event.is_action_pressed("add_below"):
 		if active_item:
-			if active_item.get_meta("subgroup"):
-				new_input(active_item.get_meta("subgroup"))
-			else:
-				var sub_list = add_nested_list(active_item)
-				new_input(sub_list)
+			var sub_list = active_item.add_subtask_container()
+			new_input(sub_list)
 		else:
 			new_input(root_list)
 		return
@@ -68,16 +65,6 @@ func next_task_id() -> int:
 	task_id += 1
 	return task_id
 	
-func add_nested_list(ref) -> VBoxContainer:
-	var group = MarginContainer.new()
-	group.add_theme_constant_override("margin_left", INDENT)
-	group.name = ref.name + "-children"
-	var sub_list = VBoxContainer.new()
-	group.add_child(sub_list)
-	ref.set_meta("subgroup", sub_list)
-	ref.add_sibling(group)
-	return sub_list
-
 func save_tasks():
 	var save_data = { 
 		"exported_at": Time.get_datetime_string_from_system(),
@@ -89,7 +76,7 @@ func save_tasks():
 func _save_nested_tasks(list) -> Array:
 	var tasks = []
 	for ele in list.get_children():
-		if ele is Entry:
+		if ele is Entry and not ele.is_queued_for_deletion():
 			tasks.push_back(ele.save())	
 	return tasks
 
@@ -114,5 +101,7 @@ func _load_nested_tasks(ref, list):
 	for ele in list:
 		var item = add_task(ref, ele["name"])
 		if ele.get("tasks"):
-			var sub_list = add_nested_list(item)
+			var sub_list = item.add_subtask_container()
 			_load_nested_tasks(sub_list, ele["tasks"])
+			if ele.get("collapsed"):
+				item.toggle_children_visibility()
