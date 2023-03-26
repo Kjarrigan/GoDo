@@ -4,11 +4,11 @@ class_name Entry
 @export var text = ""
 var selected = false
 
-@onready var label = $Item/Label
 @onready var bg = get_theme_stylebox("panel").duplicate()
 
 func _ready():
-	label.text = text
+	$Edit.hide()
+	%Label.text = text
 	Globals.item_selected.connect(unselect)
 	tree_exited.connect(func(): Globals.item_changed.emit())
 	
@@ -95,3 +95,17 @@ func _drop_data(at_position, data):
 
 func _task_id() -> String:
 	return str(get_path()).replace("-children", "")
+	
+func rename():
+	%Edit.text = text
+	%Edit.show()
+	%Edit.grab_focus()
+
+func _on_edit_text_submitted(new_text):
+	if new_text == "":
+		%Edit.hide()
+		return
+		
+	text = new_text
+	%Label.text = new_text
+	%Edit.hide()

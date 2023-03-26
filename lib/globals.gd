@@ -32,6 +32,11 @@ func _unhandled_input(event):
 			new_input(active_item.get_parent())
 		else:
 			new_input(root_list)
+		return
+		
+	if event.is_action_pressed("rename") and active_item:
+		active_item.rename()
+		return
 			
 func _input(event):
 	if event.is_action_pressed("deselect"):
