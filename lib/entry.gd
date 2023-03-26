@@ -58,14 +58,11 @@ func save() -> Dictionary:
 
 func _get_drag_data(at_position):
 	print_debug(get_meta("subgroup"))
-	return { "node": self, "id": str(get_path()) }
+	return { "node": self, "id": _task_id() }
 	
 func _can_drop_data(at_position, data):
-	# TODO, prevent moving a parent to it's child nodes
-	# this doesn't worked:
-	#if str(get_path()).begins_with(data["id"]):
-	#	print_debug("Invalid Target")
-	#	return false
+	if _task_id().begins_with(data["id"]):
+		return false
 		
 	# TODO, show preview if adding as child or reorder	
 	return true
@@ -86,3 +83,6 @@ func _drop_data(at_position, data):
 		var container = sub_list.get_parent()
 		container.get_parent().remove_child(container)
 		add_sibling(container)
+
+func _task_id() -> String:
+	return str(get_path()).replace("-children", "")

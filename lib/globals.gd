@@ -7,6 +7,7 @@ var root_list
 var active_item : Entry
 const INDENT = 20
 const SAVE_FILE = "user://godo.json"
+var task_id = 0
 
 @onready var entry = preload("res://lib/entry.tscn")
 @onready var input = preload("res://lib/input.tscn")
@@ -51,18 +52,23 @@ func new_input(parent):
 	parent.add_child(inp)
 	inp.grab_focus()
 	
-func add_task(ref, new_text) -> Entry:
+func add_task(ref, new_text) -> Entry:	
 	var item = entry.instantiate()
+	item.name = "task-%d" % next_task_id()
 	item.text = new_text
 	ref.add_child(item)
 	return item
 	
+func next_task_id() -> int:
+	task_id += 1
+	return task_id
+	
 func add_nested_list(ref) -> VBoxContainer:
 	var group = MarginContainer.new()
 	group.add_theme_constant_override("margin_left", INDENT)
+	group.name = ref.name + "-children"
 	var sub_list = VBoxContainer.new()
 	group.add_child(sub_list)
-				
 	ref.set_meta("subgroup", sub_list)
 	ref.add_sibling(group)
 	return sub_list
