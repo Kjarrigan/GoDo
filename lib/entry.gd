@@ -1,7 +1,6 @@
 extends PanelContainer
 class_name Entry
 
-const INDENT_WIDTH = 25
 @export var text = ""
 var selected = false
 
