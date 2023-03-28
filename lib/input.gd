@@ -6,4 +6,5 @@ func _ready():
 func _on_text_submitted(new_text):
 	if new_text != "":
 		Globals.add_task(get_meta("parent"), new_text)
+		Globals.save_data.emit()
 	queue_free()

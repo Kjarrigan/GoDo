@@ -21,7 +21,7 @@ Globals="*res://lib/globals.gd"
 
 [display]
 
-window/size/viewport_width=300
+window/size/viewport_width=450
 window/size/viewport_height=1080
 
 [input]

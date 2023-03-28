@@ -1,7 +1,8 @@
 extends Node
 
 signal item_selected(item)
-signal item_changed()
+signal item_changed() # TODO, remove
+signal save_data()
 
 var root_list
 var active_item : Entry
@@ -14,7 +15,7 @@ var task_id = 0
 
 func _ready():
 	item_selected.connect(func(item): active_item = item)
-	item_changed.connect(func(): save_tasks())
+	save_data.connect(func(): save_tasks())
 
 func _unhandled_input(event):		
 	if event.is_action_pressed("add_below"):
