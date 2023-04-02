@@ -3,6 +3,9 @@
 [ext_resource type="Script" path="res://lib/input.gd" id="1_fi42u"]
 
 [node name="Input" type="LineEdit"]
+offset_right = 632.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
 placeholder_text = "Enter ToDo here"
 clear_button_enabled = true
 shortcut_keys_enabled = false
