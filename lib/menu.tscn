@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://q08a5ojcfou7"]
+
+[ext_resource type="Script" path="res://lib/menu.gd" id="1_45qa4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fcwat"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5oi5"]
+
+[node name="Menu" type="MarginContainer"]
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_45qa4")
+
+[node name="Container" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="PrevWorkspace" type="Button" parent="Container"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fcwat")
+text = "<"
+
+[node name="WorkspaceTitle" type="Label" parent="Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Workspace 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WorkspaceEdit" type="LineEdit" parent="Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NextWorkspace" type="Button" parent="Container"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h5oi5")
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = ">"
+
+[connection signal="pressed" from="Container/PrevWorkspace" to="." method="_on_prev_workspace_pressed"]
+[connection signal="text_submitted" from="Container/WorkspaceEdit" to="." method="_on_workspace_edit_text_submitted"]
+[connection signal="pressed" from="Container/NextWorkspace" to="." method="_on_next_workspace_pressed"]

@@ -74,7 +74,7 @@ func _on_finish_pressed(save=true):
 		queue_free()
 		Globals.save_data.emit()
 	
-func save() -> Dictionary:
+func to_dict() -> Dictionary:
 	var save_data = {
 		"name": text,
 		"collapsed": %Toggle.text == "+"
@@ -101,8 +101,6 @@ func _can_drop_data(_at_position, data):
 	return true
 	
 func _drop_data(at_position, data):
-	var old_parent = data["node"].get_parent()
-		
 	# Cleanup the old stuff
 	data["node"]._on_finish_pressed(false)
 	
