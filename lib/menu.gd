@@ -22,7 +22,7 @@ func _on_prev_workspace_pressed():
 func _on_next_workspace_pressed():
 	Globals.change_workspace.emit(+1)
 
-func _on_workspace_edit_text_submitted(new_text):
+func _on_workspace_edit_text_submitted():
 	%WorkspaceEdit.hide()
 	%WorkspaceTitle.text = %WorkspaceEdit.text
 	%WorkspaceTitle.show()

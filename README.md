@@ -10,10 +10,10 @@ You can nest as deeply as you want, there is no hardcoded limit.
 3. <kbd>LBM</kbd> Select an item
 4. <kbd>LBM</kbd> Deselect the active item
 5. `Drag & Drop` items to reorder and/or regroup them
-6. <kbd>F2</kbd> Rename the selected task
+6. <kbd>F2</kbd> Rename the selected task or the workspace if no task is selected
 
 ## Storage
 
 Data is loaded and saved automatically in user://godo.json, ẁith `user://` being depend of the OS. For linux it's
-`~/.local/share/godot/app_userdata/GoDo/godo.json`
+`~/.local/share/godot/app_userdata/GoDo/godo_ID.json` with the ID starting from 0 to however many workspace you have.
 
