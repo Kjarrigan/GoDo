@@ -48,6 +48,12 @@ func _unhandled_input(event):
 			print_debug("Rename workspace")
 			rename_workspace.emit(false)
 			return
+	
+	var number_key = int(event.as_text())
+	if event.is_pressed() and number_key >= 0 and number_key <= 9:
+		if active_item:
+			active_item.set_label(number_key)
+		return
 			
 func _input(event):
 	if event.is_action_pressed("deselect"):

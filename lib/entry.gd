@@ -188,16 +188,19 @@ func _cleanup():
 func set_label(new_label_id : int):
 	label_id = new_label_id
 	if label_id < 1:
-		label_id = 0
-		%Label.hide()
+		remove_label()
 		return
 	
-	var lbl = Globals.labels[label_id]
+	var lbl = Globals.labels.get(label_id)
 	if not lbl is TaskLabel:
-		push_error("Invalid label-id '%d'" % new_label_id)
+		remove_label()
 		return
 	
 	%Label.text = lbl.name
 	label_bg.bg_color = lbl.color
 	%Label.add_theme_stylebox_override("normal", label_bg)
 	%Label.show()
+
+func remove_label():
+	label_id = 0
+	%Label.hide()
