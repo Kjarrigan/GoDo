@@ -2,11 +2,14 @@ extends PanelContainer
 class_name Entry
 
 @export var text = ""
+@export var label_id = 0
 var selected = false
 
 @onready var bg = get_theme_stylebox("panel").duplicate()
+@onready var label_bg = %Label.get_theme_stylebox("normal").duplicate()
 
 func _ready():
+	%Label.hide()
 	$Edit.hide()
 	disable_toggle()
 	%Title.text = text
@@ -77,11 +80,13 @@ func _on_finish_pressed(save=true):
 func to_dict() -> Dictionary:
 	var save_data = {
 		"name": text,
-		"collapsed": %Toggle.text == "+"
+		"collapsed": %Toggle.text == "+",
 	}
 	var subgroup = get_meta("subgroup")
 	if subgroup:
 		save_data["tasks"] = Globals._save_nested_tasks(subgroup)
+	if label_id > 0:
+		save_data["label_id"] = label_id
 	return save_data
 
 func _get_drag_data(_at_position):
@@ -179,3 +184,20 @@ func _cleanup():
 		if get_meta("subgroup").get_child_count() == 0:
 			get_meta("subgroup").get_parent().queue_free()
 			%Toggle.text = ""
+
+func set_label(new_label_id : int):
+	label_id = new_label_id
+	if label_id < 1:
+		label_id = 0
+		%Label.hide()
+		return
+	
+	var lbl = Globals.labels[label_id]
+	if not lbl is TaskLabel:
+		push_error("Invalid label-id '%d'" % new_label_id)
+		return
+	
+	%Label.text = lbl.name
+	label_bg.bg_color = lbl.color
+	%Label.add_theme_stylebox_override("normal", label_bg)
+	%Label.show()

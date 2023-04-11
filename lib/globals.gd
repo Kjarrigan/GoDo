@@ -9,8 +9,10 @@ signal rename_workspace(new_name)
 var root_list
 var menu
 var active_item : Entry
+var labels = {}
 const INDENT = 20
 const SAVE_FILE = "user://godo_%d.json"
+const LABEL_FILE = "user://labels.json"
 var global_task_id = 0
 var current_workspace_id = 0
 
@@ -21,6 +23,7 @@ func _ready():
 	item_selected.connect(func(item): active_item = item)
 	save_data.connect(func(): save_tasks(current_workspace_id))
 	change_workspace.connect(func (dir : int): load_or_create_workspace(dir))
+	load_labels()
 
 func _unhandled_input(event):		
 	if event.is_action_pressed("add_below"):
@@ -110,7 +113,6 @@ func load_tasks(file_id):
 	if not parse_result == OK:
 		print("JSON Parse Error: ", json.get_error_message())
 		return false
-
 	
 	var data = json.get_data()
 	var workspace_title = data.get("workspace")
@@ -137,6 +139,8 @@ func _load_nested_tasks(ref, list):
 			_load_nested_tasks(sub_list, ele["tasks"])
 			if ele.get("collapsed"):
 				item.toggle_children_visibility()
+		if ele.get("label_id"):
+			item.set_label(ele.get("label_id"))
 
 func load_or_create_workspace(dt_index):
 	if current_workspace_id == 0 and dt_index == -1:
@@ -153,3 +157,24 @@ func load_or_create_workspace(dt_index):
 		clear_list()
 		%WorkspaceTitle.text = "Workspace %d" % current_workspace_id
 		new_input(root_list)
+
+func load_labels():
+	if not FileAccess.file_exists(LABEL_FILE):
+		return false
+				
+	var file = FileAccess.open(LABEL_FILE, FileAccess.READ)
+	var json = JSON.new()
+	var parse_result = json.parse(file.get_line())
+	file = null
+	
+	if not parse_result == OK:
+		print("JSON Parse Error: ", json.get_error_message())
+		return false
+
+	var data = json.get_data()
+	for key in data: 
+		var lbl = TaskLabel.new()
+		lbl.id = int(key)
+		lbl.name = data[key]["name"]
+		lbl.color = Color(data[key]["color"])
+		labels[int(key)] = lbl

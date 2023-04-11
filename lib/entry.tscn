@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqkc04h38t0ti"]
+[gd_scene load_steps=3 format=3 uid="uid://cqkc04h38t0ti"]
 
 [ext_resource type="Script" path="res://lib/entry.gd" id="1_bvamg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y22w3"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="Entry" type="PanelContainer"]
 anchors_preset = 15
@@ -32,6 +44,19 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 12
 text = "Hello World how are you?"
 clip_text = true
+
+[node name="Label" type="Label" parent="Item"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_y22w3")
+text = "Propsal"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Finish" type="Button" parent="Item"]
 custom_minimum_size = Vector2(25, 0)
